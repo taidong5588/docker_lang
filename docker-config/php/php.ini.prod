@@ -1,0 +1,59 @@
+[PHP]
+
+; ========================================
+; エラー表示設定（本番向け）
+; ========================================
+
+; ユーザーにエラーを表示しない（セキュリティ上重要）
+display_errors = Off
+display_startup_errors = Off
+
+; エラーはログに記録（開発と同様）
+log_errors = On
+
+; ログファイルの保存先（Docker内）
+error_log = /var/log/php-fpm/errors/php_errors.log
+
+; 通知・非推奨・Strict 警告は除外
+error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT
+
+; ========================================
+; パフォーマンス関連
+; ========================================
+
+; OPcache（PHPコードのキャッシュ）を有効化
+; Laravel本番では必須（パフォーマンス大幅向上）
+
+; opcache拡張がインストール済であることが前提
+; Dockerfile に以下が必要:
+; RUN docker-php-ext-install opcache
+
+[opcache]
+opcache.enable = 1
+opcache.enable_cli = 1
+opcache.memory_consumption = 128
+opcache.interned_strings_buffer = 8
+opcache.max_accelerated_files = 10000
+opcache.revalidate_freq = 60
+opcache.validate_timestamps = 0  ; 本番では0（手動デプロイを前提）
+
+; ========================================
+; 一般設定
+; ========================================
+
+; PHPのタイムゾーン（Laravelと合わせる）
+date.timezone = "Asia/Tokyo"
+
+; ========================================
+; ファイルアップロード設定
+; ========================================
+
+upload_max_filesize = 20M
+post_max_size = 20M
+; ※必要に応じて調整（例：画像・PDF等）
+
+; ========================================
+; 文字コード設定
+; ========================================
+
+default_charset = "UTF-8"
