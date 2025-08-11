@@ -39,15 +39,15 @@ Route::prefix('{locale}')
             })->name('dashboard');
 
             // Jetstreamのプロファイル管理ページ
-            Route::get('/user/profile', function () {
-                return Inertia::render('Profile/Show', [
-                    'confirmsTwoFactorAuthentication' => Features::enabled(Features::twoFactorAuthentication()),
-                    'canUpdatePassword' => Features::enabled(Features::updatePasswords()),
-                    'canManageTwoFactorAuthentication' => Features::enabled(Features::twoFactorAuthentication()),
-                    'canSetPassword' => Features::enabled(Features::setPasswords()),
-                    'canDeleteUsers' => Features::enabled(Features::deleteAccount()),
-                ]);
-            })->name('profile.show');
+            // Route::get('/user/profile', function () {
+            //     return Inertia::render('Profile/Show', [
+            //         'confirmsTwoFactorAuthentication' => Features::enabled(Features::twoFactorAuthentication()),
+            //         'canUpdatePassword' => Features::enabled(Features::updatePasswords()),
+            //         'canManageTwoFactorAuthentication' => Features::enabled(Features::twoFactorAuthentication()),
+            //         'canSetPassword' => Features::enabled(Features::setPasswords()),
+            //         'canDeleteUsers' => Features::enabled(Features::deleteAccount()),
+            //     ]);
+            // })->name('profile.show');
 
             // JetstreamのAPIトークン管理ページ
             if (Features::hasApiFeatures()) {

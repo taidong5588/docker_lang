@@ -7,8 +7,11 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { useI18n } from 'vue-i18n'; // 追加
-const { t } = useI18n(); // 追加: 翻訳関数
+import { useI18n } from 'vue-i18n';
+import { usePage } from '@inertiajs/vue3'; // usePageをインポート
+
+const { t } = useI18n();
+const page = usePage();
 
 defineProps({
     title: String,
@@ -27,6 +30,11 @@ const switchToTeam = (team) => {
 const logout = () => {
     router.post(route('logout'));
 };
+
+// ヘルパールート関数
+const localizedRoute = (name, params = {}) => {
+    return route(name, { ...params, locale: page.props.locale });
+};
 </script>
 
 <template>
@@ -43,14 +51,16 @@ const logout = () => {
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <Link :href="route('dashboard')">
+                                <!-- 🔥 ロゴのリンクを修正 -->
+                                <Link :href="localizedRoute('dashboard')">
                                     <ApplicationMark class="block h-9 w-auto" />
                                 </Link>
                             </div>
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                                <!-- � ナビゲーションリンクを修正 -->
+                                <NavLink :href="localizedRoute('dashboard')" :active="route().current('dashboard', { locale: page.props.locale })">
                                     {{ t('Dashboard') }}
                                 </NavLink>
                             </div>
@@ -79,12 +89,13 @@ const logout = () => {
                                                 {{ t('Manage Team') }}
                                             </div>
 
-                                            <!-- Team Settings -->
-                                            <DropdownLink :href="route('teams.show', $page.props.auth.user.current_team)">
+                                            <!-- 🔥 チーム設定のリンクを修正 -->
+                                            <DropdownLink :href="localizedRoute('teams.show', $page.props.auth.user.current_team)">
                                                 {{ t('Team Settings') }}
                                             </DropdownLink>
 
-                                            <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('teams.create')">
+                                            <!-- 🔥 新規チーム作成のリンクを修正 -->
+                                            <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="localizedRoute('teams.create')">
                                                 {{ t('Create New Team') }}
                                             </DropdownLink>
 
@@ -140,11 +151,13 @@ const logout = () => {
                                             {{ t('Manage Account') }}
                                         </div>
 
-                                        <DropdownLink :href="route('profile.show')">
+                                        <!-- 🔥 プロフィールリンクを修正 -->
+                                        <DropdownLink :href="localizedRoute('profile.show')">
                                             {{ t('Profile') }}
                                         </DropdownLink>
 
-                                        <DropdownLink v-if="$page.props.jetstream.hasApiFeatures" :href="route('api-tokens.index')">
+                                        <!-- 🔥 APIトークンリンクを修正 -->
+                                        <DropdownLink v-if="$page.props.jetstream.hasApiFeatures" :href="localizedRoute('api-tokens.index')">
                                             {{ t('API Tokens') }}
                                         </DropdownLink>
 
@@ -193,7 +206,8 @@ const logout = () => {
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                        <!-- 🔥 レスポンシブナビゲーションリンクを修正 -->
+                        <ResponsiveNavLink :href="localizedRoute('dashboard')" :active="route().current('dashboard', { locale: page.props.locale })">
                             {{ t('Dashboard') }}
                         </ResponsiveNavLink>
                     </div>
@@ -216,11 +230,13 @@ const logout = () => {
                         </div>
 
                         <div class="mt-3 space-y-1">
-                            <ResponsiveNavLink :href="route('profile.show')" :active="route().current('profile.show')">
+                            <!-- 🔥 レスポンシブプロフィールリンクを修正 -->
+                            <ResponsiveNavLink :href="localizedRoute('profile.show')" :active="route().current('profile.show', { locale: page.props.locale })">
                                 {{ t('Profile') }}
                             </ResponsiveNavLink>
 
-                            <ResponsiveNavLink v-if="$page.props.jetstream.hasApiFeatures" :href="route('api-tokens.index')" :active="route().current('api-tokens.index')">
+                            <!-- 🔥 レスポンシブAPIトークンリンクを修正 -->
+                            <ResponsiveNavLink v-if="$page.props.jetstream.hasApiFeatures" :href="localizedRoute('api-tokens.index')" :active="route().current('api-tokens.index', { locale: page.props.locale })">
                                 {{ t('API Tokens') }}
                             </ResponsiveNavLink>
 
@@ -239,12 +255,13 @@ const logout = () => {
                                     {{ t('Manage Team') }}
                                 </div>
 
-                                <!-- Team Settings -->
-                                <ResponsiveNavLink :href="route('teams.show', $page.props.auth.user.current_team)" :active="route().current('teams.show')">
+                                <!-- 🔥 レスポンシブチーム設定リンクを修正 -->
+                                <ResponsiveNavLink :href="localizedRoute('teams.show', $page.props.auth.user.current_team)" :active="route().current('teams.show', { locale: page.props.locale })">
                                     {{ t('Team Settings') }}
                                 </ResponsiveNavLink>
 
-                                <ResponsiveNavLink v-if="$page.props.jetstream.canCreateTeams" :href="route('teams.create')" :active="route().current('teams.create')">
+                                <!-- 🔥 レスポンシブ新規チーム作成リンクを修正 -->
+                                <ResponsiveNavLink v-if="$page.props.jetstream.canCreateTeams" :href="localizedRoute('teams.create')" :active="route().current('teams.create', { locale: page.props.locale })">
                                     {{ t('Create New Team') }}
                                 </ResponsiveNavLink>
 
