@@ -7,6 +7,8 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import { useI18n } from 'vue-i18n'; // i18n導入
+const { t } = useI18n(); // 翻訳関数
 
 const passwordInput = ref(null);
 const currentPasswordInput = ref(null);
@@ -40,11 +42,11 @@ const updatePassword = () => {
 <template>
     <FormSection @submitted="updatePassword">
         <template #title>
-            Update Password
+            {{ t('Update Password') }}
         </template>
 
         <template #description>
-            Ensure your account is using a long, random password to stay secure.
+            {{ t('Ensure your account is using a long, random password to stay secure.') }}
         </template>
 
         <template #form>
@@ -89,11 +91,11 @@ const updatePassword = () => {
 
         <template #actions>
             <ActionMessage :on="form.recentlySuccessful" class="me-3">
-                Saved.
+                {{ t('Saved.') }}
             </ActionMessage>
 
             <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Save
+                {{ t('Save') }}  
             </PrimaryButton>
         </template>
     </FormSection>

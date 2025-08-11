@@ -68,6 +68,9 @@ php artisan view:clear
 php artisan route:clear
 php artisan optimize:clear
 
+オートロードの更新:
+composer dump-autoload
+
 exit
 
 # 再ビルドと再起動
@@ -105,7 +108,7 @@ composer require laravel-lang/lang
 composer require laravel-lang/publisher
 
 # 翻訳ファイルの追加（必要言語だけ指定）
-php artisan lang:add ja en zh_CN zh_TW ko
+php artisan lang:add ja en zh_CN ko
 
 # 翻訳ファイルを lang ディレクトリに公開
 php artisan lang:publish

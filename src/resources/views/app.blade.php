@@ -12,8 +12,14 @@
 
         <!-- Scripts -->
         @routes
+        <!-- <script>
+            // 現在のアプリケーションロケールをグローバル変数として設定
+            window.__locale = "{{ app()->getLocale() }}";
+            // フォールバックロケールも設定
+            window.__fallback_locale = "{{ config('languages.fallback', config('app.fallback_locale')) }}";
+        </script> -->
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
-        @inertiaHead
+        @inertiaHead      
     </head>
     <body class="font-sans antialiased">
         @inertia
