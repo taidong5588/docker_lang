@@ -1,5 +1,4 @@
 # docker_languages
-tree -L2
 .
 ├── README.md
 ├── docker-compose.yml
@@ -25,13 +24,11 @@ composer create-project laravel/laravel .
 
 <!-- Jetstreamパッケージのインストール -->
 composer require laravel/jetstream
-<!-- Livewireを使用する場合 -->
-php artisan jetstream:install livewire
+
 <!-- Inertia.jsを使用する場合 -->
 php artisan jetstream:install inertia
 npm install
 npm run build
-
 
 # Laravelの.envファイル編集（DB設定）
 nano .env
@@ -61,17 +58,15 @@ npm run build
 
 php artisan storage:link
 
-キャッシュをクリア
+# キャッシュをクリア
 php artisan config:clear
 php artisan cache:clear
 php artisan view:clear
 php artisan route:clear
 php artisan optimize:clear
 
-オートロードの更新:
+# オートロードの更新:
 composer dump-autoload
-
-exit
 
 # 再ビルドと再起動
 docker compose down
@@ -95,7 +90,7 @@ open http://localhost:8081  # phpMyAdmin
 # https://github.com/Laravel-Lang/lang/blob/main/locales/ja/json.json
 ######
 
-# Docker 内で実行（/var/www 配下）
+# Docker 内で実行（/var/www/src 配下）
 docker compose exec php bash
 
 # composer 再インストール
@@ -122,37 +117,19 @@ npm install vue-i18n@11
 # composer.notes.md
 - LaravelLang\Lang\ServiceProvider は lang 自動更新のために extra.laravel.providers に追加している。
 
-https://zenn.dev/naopusyu/articles/86222755fb7168
-
-
-Jetstream + Inertia インストール
+# *********エラーの場合**************# 
+# Jetstream + Inertia インストール
 composer require laravel/jetstream
 php artisan jetstream:install inertia
 
-推奨バージョンに依存関係を修正
+# 推奨バージョンに依存関係を修正
 npm uninstall vite @vitejs/plugin-vue
 npm install vite@^6.0.0 @vitejs/plugin-vue@latest
 
-フロントエンドビルド準備
+# フロントエンドビルド準備
 npm install
 npm run build
 
-データベースマイグレーション
+# データベースマイグレーション
 php artisan migrate
 
-
-echo "# -" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/taidong5588/-.git
-git push -u origin main
-
-
-
-git remote add origin https://github.com/taidong5588/agent.git
-
-git add . 
-git branch -M main
-git push -u origin main
