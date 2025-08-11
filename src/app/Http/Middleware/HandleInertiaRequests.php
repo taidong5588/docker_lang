@@ -4,6 +4,9 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Tighten\Ziggy\Ziggy;
+use Illuminate\Support\Facades\Session; // ✅ 追加
+use Illuminate\Support\Facades\Auth; // ✅ Authファサードを追加
 
 class HandleInertiaRequests extends Middleware
 {
@@ -35,9 +38,33 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+
+        // 🔥 ログインユーザーの言語設定を優先してロケールを決定
+        $locale = optional($request->user())->language ?? Session::get('locale', config('app.locale'));
+
+        // ✅ ユーザーの設定が異なっていれば更新
+        if (Auth::check() && Auth::user()->language !== $locale) {
+            Auth::user()->update(['language' => $locale]);
+        }
+
         return [
             ...parent::share($request),
-                'locale' => fn () => app()->getLocale(),
+            
+                'auth' => [
+                    'user' => $request->user(),
+                ],
+                
+                // 'locale' => fn () => app()->getLocale(),
+                // 'fallback_locale' => fn () => config('app.fallback_locale'),
+
+                // 🔥 i18nで使用するロケールとフォールバックロケールを共有
+                'locale' => fn () => $locale,
+                
+                // ✅ Ziggyの設定を追加
+                'ziggy' => fn () => [
+                    (new Ziggy)->toArray(),
+                    'location' => $request->url(),
+                ],               
         ];
     }
 }
